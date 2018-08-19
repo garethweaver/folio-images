@@ -1,0 +1,22 @@
+{
+  "name": "folio_images",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "gulp-append": "^0.3.4",
+    "gulp-base64-img": "^0.1.1",
+    "gulp-foreach": "^0.1.0",
+    "gulp-image-resize": "^0.13.0",
+    "gulp-json-format": "^2.0.0",
+    "gulp-rimraf": "^0.2.2",
+    "run-sequence": "^2.2.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
