@@ -9,6 +9,8 @@ const append = require('gulp-append')
 const fs = require('fs')
 const jsonFormat = require('gulp-json-format')
 
+const OUTPUT_FILENAME = 'base64.json';
+
 gulp.task('clean', (cb) => {
   return rimraf('./dist', cb)
 })
@@ -28,7 +30,7 @@ gulp.task('base64', () => {
       filename = path.basename(file.path)
       return stream
         .pipe(base64img())
-        .pipe(append('dist/json/' + filename + '.json'))
+        .pipe(append(`dist/json/${filename}.json`))
     }))
 })
 
@@ -39,24 +41,33 @@ gulp.task('combineJson', () => {
   fileNames.forEach((filename) => {
     let fileData = fs.readFileSync(dirPath + filename, 'utf-8')
     data.push({
-      name: filename,
-      base64: JSON.parse(fileData)[0]
+      base64: JSON.parse(fileData)[0],
+      name: filename
     })
   })
-  fs.writeFile('dist/result.json', JSON.stringify(data), (err) => {
-    if(err){ throw err }
-  })
+  fs.writeFile(
+    path.join('dist/', OUTPUT_FILENAME),
+    JSON.stringify(data),
+    (err) => {
+      if(err){ throw err
+    }}
+  )
 })
 
 gulp.task('prettyJson', () => {
   return gulp
-    .src('./dist/result.json')
+    .src(path.join('dist/', OUTPUT_FILENAME))
     .pipe(jsonFormat(2))
     .pipe(gulp.dest('./dist/'))
 })
 
 gulp.task('default', () => {
-  runSequence('clean', 'images', 'base64', 'combineJson', 'prettyJson', () => {
-    console.log('All done!')
-  })
+  runSequence(
+    'clean',
+    'images',
+    'base64',
+    'combineJson',
+    'prettyJson',
+    () => console.log('All done!')
+  )
 })
